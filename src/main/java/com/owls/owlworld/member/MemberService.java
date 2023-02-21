@@ -19,6 +19,16 @@ public class MemberService {
         this.universityService = universityService;
     }
 
+    public MemberDto findById(Long id) {
+        MemberEntity memberEntity = memberRepository
+            .findById(id)
+            .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0004));
+
+        UniversityMajorDto universityMajorDto = universityService.getMajorById(memberEntity.getUniversityMajorId());
+
+        return memberEntity.toDto(universityMajorDto);
+    }
+
     public MemberDto findByEmail(String email) {
         MemberEntity memberEntity = memberRepository.findByEmail(email);
         if (memberEntity == null) {

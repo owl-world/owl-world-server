@@ -16,6 +16,10 @@ public class MemberDto {
 
     private LocalDateTime createdAt;
 
+    public MemberDto(Long id) {
+        this.id = id;
+    }
+
     public MemberDto(Long id, String nickname, String email, String password, UniversityMajorDto universityMajorDto, LocalDateTime createdAt) {
         this.id = id;
         this.nickname = nickname;

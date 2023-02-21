@@ -3,7 +3,6 @@ package com.owls.owlworld.auth;
 import com.owls.owlworld.constant.ErrorCode;
 import com.owls.owlworld.exception.BusinessErrorException;
 import com.owls.owlworld.member.MemberDto;
-import com.owls.owlworld.member.MemberEntity;
 import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.university.UniversityMajorDto;
 import com.owls.owlworld.util.CryptoUtil;
@@ -43,14 +42,7 @@ public class AuthService {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + 3600000); // 토큰 만료 시간: 24시간
         Claims claims = Jwts.claims();
-        claims.put("id", memberDto.getId());
-        claims.put("email", memberDto.getEmail());
-        claims.put("nickname", memberDto.getNickname());
-
-        UniversityMajorDto universityMajorDto = memberDto.getUniversityMajorDto();
-        claims.put("university_major_id", universityMajorDto.getId());
-        claims.put("university_id", universityMajorDto.getUniversity().getId());
-
+        claims.put("memberId", memberDto.getId());
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
