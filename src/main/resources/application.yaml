@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://svc.sel3.cloudtype.app:30057/owlworld
+    username: root
+    password: owl12345!!
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
