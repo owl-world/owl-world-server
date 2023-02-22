@@ -9,7 +9,8 @@ public enum ErrorCode {
     ERROR_0005("ERROR_0005", "인증 실패", "인증 실패"),
     ERROR_0006("ERROR_0006", "찾을 수 없음", "글을 찾을 수 없습니다."),
     ERROR_0007("ERROR_0007", "찾을 수 없음", "댓글을 찾을 수 없습니다."),
-    ERROR_0008("ERROR_0008", "찾을 수 없음", "타입을 찾을 수 없습니다.");
+    ERROR_0008("ERROR_0008", "찾을 수 없음", "타입을 찾을 수 없습니다."),
+    ERROR_0009("ERROR_0009", "실패", "이미 좋아요를 누른 글입니다.");
 
     private final String code;
     private final String message;

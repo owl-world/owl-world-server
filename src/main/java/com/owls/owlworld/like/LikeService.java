@@ -25,14 +25,31 @@ public class LikeService {
 
     public int addLike(AddLikeRequest addLikeRequest, Long memberId) {
 
-        MemberDto memberDto = memberService.findById(memberId);
+        // 게시글이 존재하는지 확인
+        if (addLikeRequest.getTargetType().equals("post")) {
+            if (!postRepository.existsById(addLikeRequest.getTargetId())) {
+                throw new BusinessErrorException(ErrorCode.ERROR_0006);
+            }
+        }
+
+        // 댓글이 존재하는지 확인
+        if (addLikeRequest.getTargetType().equals("comment")) {
+            if (!commentRepository.existsById(addLikeRequest.getTargetId())) {
+                throw new BusinessErrorException(ErrorCode.ERROR_0007);
+            }
+        }
+
+        // 멤버가 이미 좋아요를 눌렀다면 예외처리
+        if (likeRepository.existsByTargetTypeAndTargetIdAndMemberId(addLikeRequest.getTargetType(), addLikeRequest.getTargetId(), memberId)) {
+            throw new BusinessErrorException(ErrorCode.ERROR_0009);
+        }
 
         LikeEntity likeEntity = new LikeEntity();
         likeEntity.setTargetId(addLikeRequest.getTargetId());
         likeEntity.setTargetType(addLikeRequest.getTargetType());
         likeEntity.setMemberId(memberId);
 
-        LikeEntity saved =  likeRepository.save(likeEntity);
+        LikeEntity saved = likeRepository.save(likeEntity);
         return getLikeCount(saved.getTargetType(), saved.getTargetId());
     }
 
