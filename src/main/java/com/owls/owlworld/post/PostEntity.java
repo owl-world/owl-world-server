@@ -1,7 +1,9 @@
 package com.owls.owlworld.post;
 
+import com.owls.owlworld.comment.CommentDto;
 import com.owls.owlworld.member.MemberDto;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -83,7 +85,7 @@ public class PostEntity {
         this.createdAt = createdAt;
     }
 
-    public PostDto toDto(MemberDto memberDto) {
-        return new PostDto(id, title, content, memberDto, createdAt);
+    public PostDto toDto(MemberDto memberDto, List<CommentDto> comments) {
+        return new PostDto(id, title, content, comments, memberDto, createdAt);
     }
 }

@@ -2,6 +2,7 @@ package com.owls.owlworld.post;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,10 @@ public class PostController {
         return postService.getPosts(page, size);
     }
 
+    @GetMapping("/{postId}")
+    public PostDto getPost(@PathVariable String postId) {
+        return postService.getPost(Long.valueOf(postId));
+    }
 
     @PostMapping("")
     public PostDto addPost(@RequestBody AddPostRequest addPostRequest, HttpServletRequest request) {

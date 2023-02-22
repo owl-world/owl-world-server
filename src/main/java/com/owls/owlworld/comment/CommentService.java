@@ -7,6 +7,8 @@ import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.post.PostDto;
 import com.owls.owlworld.post.PostEntity;
 import com.owls.owlworld.post.PostRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,16 @@ public class CommentService {
         this.memberService = memberService;
     }
 
+    public List<CommentDto> getComments(Long postId) {
+        List<CommentEntity> commentEntities = commentRepository.findAllByPostIdOrderByCreatedAtDesc(postId);
+
+        return commentEntities.stream()
+            .map(commentEntity -> {
+                MemberDto memberDto = memberService.findById(commentEntity.getMemberId());
+                return commentEntity.toDto(memberDto, null);
+            }).collect(Collectors.toList());
+    }
+
     public CommentDto addComment(AddCommentRequest addCommentRequest, Long memberId) {
 
         PostEntity postEntity = postRepository
@@ -34,7 +46,7 @@ public class CommentService {
         commentEntity.setMemberId(memberId);
 
         MemberDto memberDto = memberService.findById(memberId);
-        PostDto postDto = postEntity.toDto(memberDto);
+        PostDto postDto = postEntity.toDto(memberDto, null);
         return commentRepository.save(commentEntity).toDto(memberDto, postDto);
     }
 }

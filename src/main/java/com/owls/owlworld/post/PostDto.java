@@ -1,7 +1,9 @@
 package com.owls.owlworld.post;
 
+import com.owls.owlworld.comment.CommentDto;
 import com.owls.owlworld.member.MemberDto;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PostDto {
 
@@ -11,14 +13,16 @@ public class PostDto {
 
     private String content;
 
+    private List<CommentDto> comments;
     private MemberDto memberDto;
 
     private LocalDateTime createdAt;
 
-    public PostDto(Long id, String title, String content, MemberDto memberDto, LocalDateTime createdAt) {
+    public PostDto(Long id, String title, String content, List<CommentDto> comments, MemberDto memberDto, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.comments = comments;
         this.memberDto = memberDto;
         this.createdAt = createdAt;
     }
@@ -53,6 +57,14 @@ public class PostDto {
 
     public void setMemberDto(MemberDto memberDto) {
         this.memberDto = memberDto;
+    }
+
+    public List<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
     }
 
     public LocalDateTime getCreatedAt() {
