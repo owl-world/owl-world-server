@@ -83,7 +83,7 @@ public class LikeEntity {
         this.createdAt = createdAt;
     }
 
-    public <T> LikeDto<T> toDto(T target, MemberDto memberDto) {
-        return new LikeDto<T>(id, target, targetType, memberDto, createdAt);
+    public LikeDto toDto(Likeable target, MemberDto memberDto) {
+        return new LikeDto(id, target, targetType, memberDto, createdAt);
     }
 }

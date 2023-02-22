@@ -3,6 +3,10 @@ spring:
     url: jdbc:mariadb://svc.sel3.cloudtype.app:30057/owlworld
     username: root
     password: owl12345!!
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

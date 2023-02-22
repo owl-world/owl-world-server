@@ -1,11 +1,12 @@
 package com.owls.owlworld.post;
 
 import com.owls.owlworld.comment.CommentDto;
+import com.owls.owlworld.like.Likeable;
 import com.owls.owlworld.member.MemberDto;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PostDto {
+public class PostDto implements Likeable {
 
     private Long id;
 

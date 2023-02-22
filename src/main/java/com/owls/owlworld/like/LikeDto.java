@@ -3,11 +3,11 @@ package com.owls.owlworld.like;
 import com.owls.owlworld.member.MemberDto;
 import java.time.LocalDateTime;
 
-public class LikeDto<T> {
+public class LikeDto {
 
     private Long id;
 
-    private T target;
+    private Likeable target;
 
     private String targetType;
 
@@ -15,7 +15,7 @@ public class LikeDto<T> {
 
     private LocalDateTime createdAt;
 
-    public LikeDto(Long id, T target, String targetType, MemberDto memberDto, LocalDateTime createdAt) {
+    public LikeDto(Long id, Likeable target, String targetType, MemberDto memberDto, LocalDateTime createdAt) {
         this.id = id;
         this.target = target;
         this.targetType = targetType;
@@ -31,11 +31,11 @@ public class LikeDto<T> {
         this.id = id;
     }
 
-    public T getTarget() {
+    public Likeable getTarget() {
         return target;
     }
 
-    public void setTarget(T target) {
+    public void setTarget(Likeable target) {
         this.target = target;
     }
 
