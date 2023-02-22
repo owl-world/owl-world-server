@@ -43,7 +43,7 @@ public class PostService {
                     MemberDto memberDto = new MemberDto(postEntity.getMemberId());
                     int commentCount = commentService.getCommentCount(postEntity.getId());
                     int likeCount = likeService.getLikeCount("post", postEntity.getId());
-                    return postEntity.toDto(memberDto, null, commentCount, likeCount);
+                    return postEntity.toDto(memberDto, null, commentCount, likeCount, false);
                 }).collect(Collectors.toList()));
     }
 
@@ -53,7 +53,11 @@ public class PostService {
         MemberDto memberDto = memberService.findById(postEntity.getMemberId());
         List<CommentDto> comments = commentService.getComments(postId);
         int likeCount = likeService.getLikeCount("post", postEntity.getId());
-        return postEntity.toDto(memberDto, comments, comments.size(), likeCount);
+
+        // 좋아요를 눌렀는지
+        boolean isLiked = likeService.isLiked("post", postEntity.getId(), memberDto.getId());
+
+        return postEntity.toDto(memberDto, comments, comments.size(), likeCount, isLiked);
     }
 
     public PostDto createPost(AddPostRequest addPostRequest, Long memberId) {
@@ -63,6 +67,6 @@ public class PostService {
         postEntity.setMemberId(memberId);
 
         MemberDto memberDto = memberService.findById(memberId);
-        return postRepository.save(postEntity).toDto(memberDto, null, 0, 0);
+        return postRepository.save(postEntity).toDto(memberDto, null, 0, 0, false);
     }
 }

@@ -86,7 +86,7 @@ public class PostEntity {
         this.createdAt = createdAt;
     }
 
-    public PostDto toDto(MemberDto memberDto, List<CommentDto> comments, int commentCount, int likeCount) {
-        return new PostDto(id, title, content, comments, commentCount, likeCount, memberDto, createdAt);
+    public PostDto toDto(MemberDto memberDto, List<CommentDto> comments, int commentCount, int likeCount, boolean liked) {
+        return new PostDto(id, title, content, comments, commentCount, likeCount, liked, memberDto, createdAt);
     }
 }

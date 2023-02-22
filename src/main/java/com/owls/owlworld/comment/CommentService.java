@@ -50,7 +50,7 @@ public class CommentService {
         commentEntity.setMemberId(memberId);
 
         MemberDto memberDto = memberService.findById(memberId);
-        PostDto postDto = postEntity.toDto(memberDto, null, 0, 0);
+        PostDto postDto = postEntity.toDto(memberDto, null, 0, 0, false);
         return commentRepository.save(commentEntity).toDto(memberDto, postDto);
     }
 }

@@ -17,17 +17,19 @@ public class PostDto implements Likeable {
     private List<CommentDto> comments;
     private int commentCount;
     private int likeCount;
+    private boolean liked;
     private MemberDto memberDto;
 
     private LocalDateTime createdAt;
 
-    public PostDto(Long id, String title, String content, List<CommentDto> comments, int commentCount, int likeCount, MemberDto memberDto, LocalDateTime createdAt) {
+    public PostDto(Long id, String title, String content, List<CommentDto> comments, int commentCount, int likeCount, boolean liked, MemberDto memberDto, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.comments = comments;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
+        this.liked = liked;
         this.memberDto = memberDto;
         this.createdAt = createdAt;
     }
@@ -86,6 +88,14 @@ public class PostDto implements Likeable {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 
     public LocalDateTime getCreatedAt() {

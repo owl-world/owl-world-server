@@ -64,4 +64,9 @@ public class LikeService {
     public int getLikeCount(String targetType, Long targetId) {
         return likeRepository.countByTargetTypeAndTargetId(targetType, targetId);
     }
+
+    // 좋아요를 눌렀는지 확인
+    public boolean isLiked(String targetType, Long targetId, Long memberId) {
+        return likeRepository.existsByTargetTypeAndTargetIdAndMemberId(targetType, targetId, memberId);
+    }
 }
