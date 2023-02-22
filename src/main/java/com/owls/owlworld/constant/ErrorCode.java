@@ -6,7 +6,8 @@ public enum ErrorCode {
     ERROR_0002("ERROR_0002", "중복", "중복된 닉네임입니다."),
     ERROR_0003("ERROR_0003", "찾을 수 없음", "대학교를 찾을 수 없습니다."),
     ERROR_0004("ERROR_0004", "찾을 수 없음", "사용자를 찾을 수 없습니다."),
-    ERROR_0005("ERROR_0005", "인증 실패", "인증 실패");
+    ERROR_0005("ERROR_0005", "인증 실패", "인증 실패"),
+    ERROR_0006("ERROR_0006", "찾을 수 없음", "글을 찾을 수 없습니다.");
 
     private final String code;
     private final String message;

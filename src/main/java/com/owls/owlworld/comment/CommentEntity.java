@@ -3,12 +3,14 @@ package com.owls.owlworld.comment;
 
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.post.PostDto;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "comment")
@@ -27,10 +29,11 @@ public class CommentEntity {
     @Column(name = "post_id", nullable = false)
     private Long postId;
 
+    @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    private String createdAt;
+    private LocalDateTime createdAt;
 
-    public CommentEntity(Long id, String content, Long memberId, Long postId, String createdAt) {
+    public CommentEntity(Long id, String content, Long memberId, Long postId, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.memberId = memberId;
@@ -74,11 +77,11 @@ public class CommentEntity {
         this.postId = postId;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
