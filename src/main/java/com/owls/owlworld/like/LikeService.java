@@ -23,28 +23,20 @@ public class LikeService {
         this.memberService = memberService;
     }
 
-    public LikeDto addLike(AddLikeRequest addLikeRequest, Long memberId) {
+    public int addLike(AddLikeRequest addLikeRequest, Long memberId) {
 
         MemberDto memberDto = memberService.findById(memberId);
-
-        Likeable likeable;
-        if (addLikeRequest.getTargetType().equals("post")) {
-            likeable = postRepository.findById(addLikeRequest.getTargetId())
-                .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0006))
-                .toDto(memberDto, null, 0);
-        } else if (addLikeRequest.getTargetType().equals("comment")) {
-            likeable = commentRepository.findById(addLikeRequest.getTargetId())
-                .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0006))
-                .toDto(memberDto, null);
-        } else {
-            throw new BusinessErrorException(ErrorCode.ERROR_0008);
-        }
 
         LikeEntity likeEntity = new LikeEntity();
         likeEntity.setTargetId(addLikeRequest.getTargetId());
         likeEntity.setTargetType(addLikeRequest.getTargetType());
         likeEntity.setMemberId(memberId);
 
-        return likeRepository.save(likeEntity).toDto(likeable, memberDto);
+        LikeEntity saved =  likeRepository.save(likeEntity);
+        return getLikeCount(saved.getTargetType(), saved.getTargetId());
+    }
+
+    public int getLikeCount(String targetType, Long targetId) {
+        return likeRepository.countByTargetTypeAndTargetId(targetType, targetId);
     }
 }

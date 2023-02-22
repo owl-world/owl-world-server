@@ -4,6 +4,7 @@ import com.owls.owlworld.comment.CommentDto;
 import com.owls.owlworld.comment.CommentService;
 import com.owls.owlworld.constant.ErrorCode;
 import com.owls.owlworld.exception.BusinessErrorException;
+import com.owls.owlworld.like.LikeService;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
 import java.util.List;
@@ -19,11 +20,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final MemberService memberService;
     private final CommentService commentService;
+    private final LikeService likeService;
 
-    public PostService(PostRepository postRepository, MemberService memberService, CommentService commentService) {
+    public PostService(PostRepository postRepository, MemberService memberService, CommentService commentService, LikeService likeService) {
         this.postRepository = postRepository;
         this.memberService = memberService;
         this.commentService = commentService;
+        this.likeService = likeService;
     }
 
     public GetAllPostResponse getPosts(Integer page, Integer size) {
@@ -39,7 +42,8 @@ public class PostService {
                 .map(postEntity -> {
                     MemberDto memberDto = new MemberDto(postEntity.getMemberId());
                     int commentCount = commentService.getCommentCount(postEntity.getId());
-                    return postEntity.toDto(memberDto, null, commentCount);
+                    int likeCount = likeService.getLikeCount("post", postEntity.getId());
+                    return postEntity.toDto(memberDto, null, commentCount, likeCount);
                 }).collect(Collectors.toList()));
     }
 
@@ -48,7 +52,8 @@ public class PostService {
             .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0006));
         MemberDto memberDto = memberService.findById(postEntity.getMemberId());
         List<CommentDto> comments = commentService.getComments(postId);
-        return postEntity.toDto(memberDto, comments, comments.size());
+        int likeCount = likeService.getLikeCount("post", postEntity.getId());
+        return postEntity.toDto(memberDto, comments, comments.size(), likeCount);
     }
 
     public PostDto createPost(AddPostRequest addPostRequest, Long memberId) {
@@ -58,6 +63,6 @@ public class PostService {
         postEntity.setMemberId(memberId);
 
         MemberDto memberDto = memberService.findById(memberId);
-        return postRepository.save(postEntity).toDto(memberDto, null, 0);
+        return postRepository.save(postEntity).toDto(memberDto, null, 0, 0);
     }
 }

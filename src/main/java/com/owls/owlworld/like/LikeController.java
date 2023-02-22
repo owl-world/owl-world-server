@@ -16,7 +16,7 @@ public class LikeController {
     }
 
     @PostMapping("")
-    public LikeDto addLike(AddLikeRequest addLikeRequest, HttpServletRequest request) {
+    public int addLike(AddLikeRequest addLikeRequest, HttpServletRequest request) {
         Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
 
         return likeService.addLike(addLikeRequest, memberId);
