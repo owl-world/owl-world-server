@@ -1,5 +1,6 @@
 package com.owls.owlworld.post;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,11 @@ public class PostController {
     @GetMapping("/{postId}")
     public PostDto getPost(@PathVariable String postId) {
         return postService.getPost(Long.valueOf(postId));
+    }
+
+    @GetMapping("/top")
+    public List<PostDto> getTopPosts() {
+        return postService.getTop3PostsInLast12Hours();
     }
 
     @PostMapping("")

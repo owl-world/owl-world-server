@@ -60,6 +60,12 @@ public class PostService {
         return postEntity.toDto(memberDto, comments, comments.size(), likeCount, isLiked);
     }
 
+    public List<PostDto> getTop3PostsInLast12Hours() {
+        List<Long> postIds = postRepository.findTop3PostIdsInLast12Hours();
+        return postIds.stream()
+            .map(this::getPost).collect(Collectors.toList());
+    }
+
     public PostDto createPost(AddPostRequest addPostRequest, Long memberId) {
         PostEntity postEntity = new PostEntity();
         postEntity.setTitle(addPostRequest.getTitle());
