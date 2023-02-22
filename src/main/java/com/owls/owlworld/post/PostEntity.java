@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.util.ObjectUtils;
 
 @Entity
 @Table(name = "post")
@@ -85,7 +86,7 @@ public class PostEntity {
         this.createdAt = createdAt;
     }
 
-    public PostDto toDto(MemberDto memberDto, List<CommentDto> comments) {
-        return new PostDto(id, title, content, comments, memberDto, createdAt);
+    public PostDto toDto(MemberDto memberDto, List<CommentDto> comments, int commentCount) {
+        return new PostDto(id, title, content, comments, commentCount, memberDto, createdAt);
     }
 }

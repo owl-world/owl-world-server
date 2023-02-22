@@ -38,7 +38,8 @@ public class PostService {
             content.stream()
                 .map(postEntity -> {
                     MemberDto memberDto = new MemberDto(postEntity.getMemberId());
-                    return postEntity.toDto(memberDto, null);
+                    int commentCount = commentService.getCommentCount(postEntity.getId());
+                    return postEntity.toDto(memberDto, null, commentCount);
                 }).collect(Collectors.toList()));
     }
 
@@ -47,7 +48,7 @@ public class PostService {
             .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0006));
         MemberDto memberDto = memberService.findById(postEntity.getMemberId());
         List<CommentDto> comments = commentService.getComments(postId);
-        return postEntity.toDto(memberDto, comments);
+        return postEntity.toDto(memberDto, comments, comments.size());
     }
 
     public PostDto createPost(AddPostRequest addPostRequest, Long memberId) {
@@ -57,8 +58,6 @@ public class PostService {
         postEntity.setMemberId(memberId);
 
         MemberDto memberDto = memberService.findById(memberId);
-        return postRepository.save(postEntity).toDto(memberDto, null);
+        return postRepository.save(postEntity).toDto(memberDto, null, 0);
     }
-
-
 }

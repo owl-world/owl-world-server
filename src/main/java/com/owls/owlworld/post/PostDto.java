@@ -14,15 +14,17 @@ public class PostDto {
     private String content;
 
     private List<CommentDto> comments;
+    private int commentCount;
     private MemberDto memberDto;
 
     private LocalDateTime createdAt;
 
-    public PostDto(Long id, String title, String content, List<CommentDto> comments, MemberDto memberDto, LocalDateTime createdAt) {
+    public PostDto(Long id, String title, String content, List<CommentDto> comments, int commentCount, MemberDto memberDto, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.comments = comments;
+        this.commentCount = commentCount;
         this.memberDto = memberDto;
         this.createdAt = createdAt;
     }
@@ -65,6 +67,14 @@ public class PostDto {
 
     public void setComments(List<CommentDto> comments) {
         this.comments = comments;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
     }
 
     public LocalDateTime getCreatedAt() {

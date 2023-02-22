@@ -34,6 +34,10 @@ public class CommentService {
             }).collect(Collectors.toList());
     }
 
+    public int getCommentCount(Long postId) {
+        return commentRepository.countByPostId(postId);
+    }
+
     public CommentDto addComment(AddCommentRequest addCommentRequest, Long memberId) {
 
         PostEntity postEntity = postRepository
@@ -46,7 +50,7 @@ public class CommentService {
         commentEntity.setMemberId(memberId);
 
         MemberDto memberDto = memberService.findById(memberId);
-        PostDto postDto = postEntity.toDto(memberDto, null);
+        PostDto postDto = postEntity.toDto(memberDto, null, 0);
         return commentRepository.save(commentEntity).toDto(memberDto, postDto);
     }
 }
