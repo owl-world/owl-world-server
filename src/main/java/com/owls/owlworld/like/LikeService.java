@@ -53,6 +53,14 @@ public class LikeService {
         return getLikeCount(saved.getTargetType(), saved.getTargetId());
     }
 
+    public int removeLike(RemoveLikeRequest removeLikeRequest, Long memberId) {
+        LikeEntity likeEntity = likeRepository.findByTargetTypeAndTargetIdAndMemberId(removeLikeRequest.getTargetType(), removeLikeRequest.getTargetId(), memberId)
+            .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0010));
+
+        likeRepository.delete(likeEntity);
+        return getLikeCount(likeEntity.getTargetType(), likeEntity.getTargetId());
+    }
+
     public int getLikeCount(String targetType, Long targetId) {
         return likeRepository.countByTargetTypeAndTargetId(targetType, targetId);
     }

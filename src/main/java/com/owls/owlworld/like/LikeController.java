@@ -1,6 +1,7 @@
 package com.owls.owlworld.like;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,5 +21,12 @@ public class LikeController {
         Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
 
         return likeService.addLike(addLikeRequest, memberId);
+    }
+
+    @DeleteMapping("")
+    public int removeLike(RemoveLikeRequest removeLikeRequest, HttpServletRequest request) {
+        Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
+
+        return likeService.removeLike(removeLikeRequest, memberId);
     }
 }
