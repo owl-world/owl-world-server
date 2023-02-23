@@ -1,8 +1,10 @@
 package com.owls.owlworld.question;
 
+import com.owls.owlworld.answer.AnswerDto;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.university.UniversityDto;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -95,7 +97,7 @@ public class QuestionEntity {
         this.createdAt = createdAt;
     }
 
-    public QuestionDto toDto(MemberDto memberDto, UniversityDto universityDto, int answerCount) {
-        return new QuestionDto(id, title, content, answerCount, memberDto, universityDto, createdAt);
+    public QuestionDto toDto(MemberDto memberDto, UniversityDto universityDto, List<AnswerDto> answers, int answerCount) {
+        return new QuestionDto(id, title, content, answerCount, answers, memberDto, universityDto, createdAt);
     }
 }

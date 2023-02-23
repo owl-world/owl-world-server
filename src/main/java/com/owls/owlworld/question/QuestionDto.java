@@ -1,8 +1,10 @@
 package com.owls.owlworld.question;
 
+import com.owls.owlworld.answer.AnswerDto;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.university.UniversityDto;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class QuestionDto {
 
@@ -10,16 +12,18 @@ public class QuestionDto {
     private String title;
     private String content;
     private int answerCount;
+    private List<AnswerDto> answers;
     private MemberDto member;
 
     private UniversityDto universityDto;
     private LocalDateTime createdAt;
 
-    public QuestionDto(Long id, String title, String content, int answerCount, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {
+    public QuestionDto(Long id, String title, String content, int answerCount, List<AnswerDto> answers, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.answerCount = answerCount;
+        this.answers = answers;
         this.member = member;
         this.universityDto = universityDto;
         this.createdAt = createdAt;
@@ -66,6 +70,14 @@ public class QuestionDto {
 
     public void setAnswerCount(int answerCount) {
         this.answerCount = answerCount;
+    }
+
+    public List<AnswerDto> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<AnswerDto> answers) {
+        this.answers = answers;
     }
 
     public UniversityDto getUniversityDto() {

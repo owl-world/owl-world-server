@@ -7,6 +7,8 @@ import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.question.QuestionDto;
 import com.owls.owlworld.question.QuestionEntity;
 import com.owls.owlworld.question.QuestionRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,9 +31,8 @@ public class AnswerService {
         QuestionEntity questionEntity = questionRepository.findById(addAnswerRequest.getQuestionId())
             .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
-        int answerCount = this.getAnswerCount(questionEntity.getId());
-
-        QuestionDto questionDto = questionEntity.toDto(memberDto, null, answerCount);
+        List<AnswerDto> answers = this.getAnswers(questionEntity.getId());
+        QuestionDto questionDto = questionEntity.toDto(memberDto, null, answers, answers.size());
 
         AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setContent(addAnswerRequest.getContent());
@@ -41,6 +42,15 @@ public class AnswerService {
 
         AnswerEntity saved = answerRepository.save(answerEntity);
         return saved.toDto(questionDto, memberDto);
+    }
+
+    public List<AnswerDto> getAnswers(Long questionId) {
+        List<AnswerEntity> answerEntities = answerRepository.findAllByQuestionId(questionId);
+        return answerEntities.stream()
+            .map(answerEntity -> {
+                MemberDto memberDto = new MemberDto(answerEntity.getMemberId());
+                return answerEntity.toDto(null, memberDto);
+            }).collect(Collectors.toList());
     }
 
     // 답변개수

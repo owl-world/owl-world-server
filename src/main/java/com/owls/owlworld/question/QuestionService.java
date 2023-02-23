@@ -1,10 +1,14 @@
 package com.owls.owlworld.question;
 
+import com.owls.owlworld.answer.AnswerDto;
 import com.owls.owlworld.answer.AnswerService;
+import com.owls.owlworld.constant.ErrorCode;
+import com.owls.owlworld.exception.BusinessErrorException;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.university.UniversityDto;
 import com.owls.owlworld.university.UniversityService;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
@@ -40,7 +44,7 @@ public class QuestionService {
                 .map(questionEntity -> {
                     MemberDto memberDto = new MemberDto(questionEntity.getMemberId());
                     int answerCount = answerService.getAnswerCount(questionEntity.getId());
-                    return questionEntity.toDto(memberDto, null, answerCount);
+                    return questionEntity.toDto(memberDto, null, null, answerCount);
                 }).collect(Collectors.toList()));
     }
 
@@ -56,6 +60,16 @@ public class QuestionService {
 
         QuestionEntity saved = questionRepository.save(questionEntity);
 
-        return saved.toDto(memberDto, universityDto, 0);
+        return saved.toDto(memberDto, universityDto, new ArrayList<>(), 0);
+    }
+
+    public QuestionDto getQuestion(Long questionId) {
+
+        QuestionEntity questionEntity = questionRepository.findById(questionId).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
+
+        MemberDto memberDto = memberService.findById(questionEntity.getMemberId());
+        List<AnswerDto> answers = answerService.getAnswers(questionEntity.getId());
+
+        return questionEntity.toDto(memberDto, null, answers, answers.size());
     }
 }
