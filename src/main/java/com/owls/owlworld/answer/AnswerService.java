@@ -2,6 +2,7 @@ package com.owls.owlworld.answer;
 
 import com.owls.owlworld.constant.ErrorCode;
 import com.owls.owlworld.exception.BusinessErrorException;
+import com.owls.owlworld.like.LikeService;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.question.QuestionDto;
@@ -17,11 +18,13 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
+    private final LikeService likeService;
 
-    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, MemberService memberService) {
+    public AnswerService(AnswerRepository answerRepository, QuestionRepository questionRepository, MemberService memberService, LikeService likeService) {
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.memberService = memberService;
+        this.likeService = likeService;
     }
 
     public AnswerDto addAnswer(AddAnswerRequest addAnswerRequest, Long memberId) {
@@ -41,7 +44,7 @@ public class AnswerService {
         answerEntity.setAccepted(false);
 
         AnswerEntity saved = answerRepository.save(answerEntity);
-        return saved.toDto(questionDto, memberDto);
+        return saved.toDto(questionDto, memberDto, 0);
     }
 
     public List<AnswerDto> getAnswers(Long questionId) {
@@ -49,7 +52,8 @@ public class AnswerService {
         return answerEntities.stream()
             .map(answerEntity -> {
                 MemberDto memberDto = new MemberDto(answerEntity.getMemberId());
-                return answerEntity.toDto(null, memberDto);
+                int likeCount = likeService.getLikeCount("answer", answerEntity.getId());
+                return answerEntity.toDto(null, memberDto, likeCount);
             }).collect(Collectors.toList());
     }
 

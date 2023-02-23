@@ -1,8 +1,12 @@
 package com.owls.owlworld.like;
 
 public class AddLikeRequest {
+
     private Long targetId;
     private String targetType;
+
+    public AddLikeRequest() {
+    }
 
     public AddLikeRequest(Long targetId, String targetType) {
         this.targetId = targetId;

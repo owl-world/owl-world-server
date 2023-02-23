@@ -2,12 +2,14 @@ package com.owls.owlworld.answer;
 
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.question.QuestionDto;
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "answer")
@@ -29,15 +31,20 @@ public class AnswerEntity {
     @Column(name = "is_accepted", nullable = false)
     private boolean isAccepted;
 
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
     public AnswerEntity() {
     }
 
-    public AnswerEntity(Long id, String content, Long questionId, Long memberId, boolean isAccepted) {
+    public AnswerEntity(Long id, String content, Long questionId, Long memberId, boolean isAccepted, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.questionId = questionId;
         this.memberId = memberId;
         this.isAccepted = isAccepted;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -80,7 +87,15 @@ public class AnswerEntity {
         isAccepted = accepted;
     }
 
-    public AnswerDto toDto(QuestionDto questionDto, MemberDto memberDto) {
-        return new AnswerDto(id, content, questionDto, memberDto, isAccepted);
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public AnswerDto toDto(QuestionDto questionDto, MemberDto memberDto, int likeCount) {
+        return new AnswerDto(id, content, likeCount, questionDto, memberDto, isAccepted, createdAt);
     }
 }

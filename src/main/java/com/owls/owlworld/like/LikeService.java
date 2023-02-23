@@ -1,9 +1,9 @@
 package com.owls.owlworld.like;
 
+import com.owls.owlworld.answer.AnswerRepository;
 import com.owls.owlworld.comment.CommentRepository;
 import com.owls.owlworld.constant.ErrorCode;
 import com.owls.owlworld.exception.BusinessErrorException;
-import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.post.PostRepository;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,14 @@ public class LikeService {
     private final LikeRepository likeRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final AnswerRepository answerRepository;
     private final MemberService memberService;
 
-    public LikeService(LikeRepository likeRepository, PostRepository postRepository, CommentRepository commentRepository, MemberService memberService) {
+    public LikeService(LikeRepository likeRepository, PostRepository postRepository, CommentRepository commentRepository, AnswerRepository answerRepository, MemberService memberService) {
         this.likeRepository = likeRepository;
         this.postRepository = postRepository;
         this.commentRepository = commentRepository;
+        this.answerRepository = answerRepository;
         this.memberService = memberService;
     }
 
@@ -36,6 +38,12 @@ public class LikeService {
         if (addLikeRequest.getTargetType().equals("comment")) {
             if (!commentRepository.existsById(addLikeRequest.getTargetId())) {
                 throw new BusinessErrorException(ErrorCode.ERROR_0007);
+            }
+        }
+
+        if (addLikeRequest.getTargetType().equals("answer")) {
+            if (!answerRepository.existsById(addLikeRequest.getTargetId())) {
+                throw new BusinessErrorException(ErrorCode.ERROR_0012);
             }
         }
 
