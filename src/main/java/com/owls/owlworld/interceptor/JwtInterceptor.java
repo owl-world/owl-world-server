@@ -49,13 +49,13 @@ public class JwtInterceptor implements HandlerInterceptor {
     private boolean isAllow(HttpServletRequest request) {
         String requestUri = ServletUriComponentsBuilder.fromRequestUri(request).build().getPath();
         String method = request.getMethod();
-        if (requestUri.startsWith("/member/")) {
+        if (requestUri.startsWith("/member")) {
             return true;
         }
-        if (requestUri.startsWith("/auth/")) {
+        if (requestUri.startsWith("/auth")) {
             return true;
         }
-        if (requestUri.startsWith("/university/")) {
+        if (requestUri.startsWith("/university")) {
             return true;
         }
 
