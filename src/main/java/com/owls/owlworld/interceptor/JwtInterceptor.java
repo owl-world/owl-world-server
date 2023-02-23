@@ -49,28 +49,38 @@ public class JwtInterceptor implements HandlerInterceptor {
     private boolean isAllow(HttpServletRequest request) {
         String requestUri = ServletUriComponentsBuilder.fromRequestUri(request).build().getPath();
         String method = request.getMethod();
+
+        boolean isAllow = false;
         if (requestUri.startsWith("/member")) {
-            return true;
+            isAllow = true;
         }
         if (requestUri.startsWith("/auth")) {
-            return true;
+            isAllow = true;
         }
         if (requestUri.startsWith("/university")) {
-            return true;
+            isAllow = true;
         }
 
         if (requestUri.startsWith("/v2/api-docs")) {
-            return true;
+            isAllow = true;
         }
         if (requestUri.startsWith("/swagger-resources")) {
-            return true;
+            isAllow = true;
         }
         if (requestUri.startsWith("/swagger-ui")) {
-            return true;
+            isAllow = true;
         }
         if (method.equals("GET") && requestUri.startsWith("/question")) {
-            return true;
+            isAllow = true;
         }
-        return false;
+
+        if (isAllow) {
+            String authorizationHeader = request.getHeader("Authorization");
+            if (authorizationHeader != null) {
+                isAllow = false;
+            }
+        }
+
+        return isAllow;
     }
 }

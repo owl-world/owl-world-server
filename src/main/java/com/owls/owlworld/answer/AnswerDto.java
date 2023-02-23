@@ -10,6 +10,7 @@ public class AnswerDto {
 
     private String content;
     private int likeCount;
+    private boolean isLiked;
 
     private QuestionDto question;
 
@@ -19,10 +20,11 @@ public class AnswerDto {
 
     private LocalDateTime createdAt;
 
-    public AnswerDto(Long id, String content, int likeCount, QuestionDto question, MemberDto member, boolean isAccepted, LocalDateTime createdAt) {
+    public AnswerDto(Long id, String content, int likeCount, boolean isLiked, QuestionDto question, MemberDto member, boolean isAccepted, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.likeCount = likeCount;
+        this.isLiked = isLiked;
         this.question = question;
         this.member = member;
         this.isAccepted = isAccepted;
@@ -83,5 +85,13 @@ public class AnswerDto {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
     }
 }

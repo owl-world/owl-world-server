@@ -63,12 +63,12 @@ public class QuestionService {
         return saved.toDto(memberDto, universityDto, new ArrayList<>(), 0);
     }
 
-    public QuestionDto getQuestion(Long questionId) {
+    public QuestionDto getQuestion(Long questionId, Long memberId) {
 
         QuestionEntity questionEntity = questionRepository.findById(questionId).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
         MemberDto memberDto = memberService.findById(questionEntity.getMemberId());
-        List<AnswerDto> answers = answerService.getAnswers(questionEntity.getId());
+        List<AnswerDto> answers = answerService.getAnswers(questionEntity.getId(), memberId);
 
         return questionEntity.toDto(memberDto, null, answers, answers.size());
     }

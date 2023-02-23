@@ -34,7 +34,7 @@ public class AnswerService {
         QuestionEntity questionEntity = questionRepository.findById(addAnswerRequest.getQuestionId())
             .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
-        List<AnswerDto> answers = this.getAnswers(questionEntity.getId());
+        List<AnswerDto> answers = this.getAnswers(questionEntity.getId(), memberId);
         QuestionDto questionDto = questionEntity.toDto(memberDto, null, answers, answers.size());
 
         AnswerEntity answerEntity = new AnswerEntity();
@@ -44,16 +44,17 @@ public class AnswerService {
         answerEntity.setAccepted(false);
 
         AnswerEntity saved = answerRepository.save(answerEntity);
-        return saved.toDto(questionDto, memberDto, 0);
+        return saved.toDto(questionDto, memberDto, 0, false);
     }
 
-    public List<AnswerDto> getAnswers(Long questionId) {
+    public List<AnswerDto> getAnswers(Long questionId, Long memberId) {
         List<AnswerEntity> answerEntities = answerRepository.findAllByQuestionId(questionId);
         return answerEntities.stream()
             .map(answerEntity -> {
                 MemberDto memberDto = new MemberDto(answerEntity.getMemberId());
                 int likeCount = likeService.getLikeCount("answer", answerEntity.getId());
-                return answerEntity.toDto(null, memberDto, likeCount);
+                boolean isLiked = memberId != null && likeService.isLiked("answer", answerEntity.getId(), memberId);
+                return answerEntity.toDto(null, memberDto, likeCount, isLiked);
             }).collect(Collectors.toList());
     }
 

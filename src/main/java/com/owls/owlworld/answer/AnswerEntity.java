@@ -95,7 +95,7 @@ public class AnswerEntity {
         this.createdAt = createdAt;
     }
 
-    public AnswerDto toDto(QuestionDto questionDto, MemberDto memberDto, int likeCount) {
-        return new AnswerDto(id, content, likeCount, questionDto, memberDto, isAccepted, createdAt);
+    public AnswerDto toDto(QuestionDto questionDto, MemberDto memberDto, int likeCount, boolean liked) {
+        return new AnswerDto(id, content, likeCount, liked, questionDto, memberDto, isAccepted, createdAt);
     }
 }

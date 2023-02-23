@@ -25,8 +25,11 @@ public class QuestionController {
     }
 
     @GetMapping("/{questionId}")
-    public QuestionDto getQuestion(@PathVariable String questionId) {
-        return questionService.getQuestion(Long.valueOf(questionId));
+    public QuestionDto getQuestion(@PathVariable String questionId, HttpServletRequest request) {
+        boolean isMember = request.getAttribute("memberId") != null;
+        Long memberId = isMember ? Long.valueOf(String.valueOf(request.getAttribute("memberId"))) : null;
+
+        return questionService.getQuestion(Long.valueOf(questionId), memberId);
     }
 
     @PostMapping("")

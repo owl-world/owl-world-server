@@ -47,7 +47,7 @@ public class PostService {
                 }).collect(Collectors.toList()));
     }
 
-    public PostDto getPost(Long postId) {
+    public PostDto getPost(Long postId, Long memberId) {
         PostEntity postEntity = postRepository.findById(postId)
             .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0006));
         MemberDto memberDto = memberService.findById(postEntity.getMemberId());
@@ -55,15 +55,15 @@ public class PostService {
         int likeCount = likeService.getLikeCount("post", postEntity.getId());
 
         // 좋아요를 눌렀는지
-        boolean isLiked = likeService.isLiked("post", postEntity.getId(), memberDto.getId());
+        boolean isLiked = likeService.isLiked("post", postEntity.getId(), memberId);
 
         return postEntity.toDto(memberDto, comments, comments.size(), likeCount, isLiked);
     }
 
-    public List<PostDto> getTop3PostsInLast12Hours() {
+    public List<PostDto> getTop3PostsInLast12Hours(Long memberId) {
         List<Long> postIds = postRepository.findTop3PostIdsInLast12Hours();
         return postIds.stream()
-            .map(this::getPost).collect(Collectors.toList());
+            .map(postId -> this.getPost(postId,memberId)).collect(Collectors.toList());
     }
 
     public PostDto createPost(AddPostRequest addPostRequest, Long memberId) {

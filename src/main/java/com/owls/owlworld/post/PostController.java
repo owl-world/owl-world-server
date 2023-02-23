@@ -26,13 +26,17 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public PostDto getPost(@PathVariable String postId) {
-        return postService.getPost(Long.valueOf(postId));
+    public PostDto getPost(@PathVariable String postId, HttpServletRequest request) {
+        Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
+
+        return postService.getPost(Long.valueOf(postId), memberId);
     }
 
     @GetMapping("/top")
-    public List<PostDto> getTopPosts() {
-        return postService.getTop3PostsInLast12Hours();
+    public List<PostDto> getTopPosts(HttpServletRequest request) {
+        Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
+
+        return postService.getTop3PostsInLast12Hours(memberId);
     }
 
     @PostMapping("")
