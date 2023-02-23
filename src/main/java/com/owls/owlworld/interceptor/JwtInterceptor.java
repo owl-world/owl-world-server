@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
@@ -18,6 +19,11 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        if (isAllow(request)) {
+            return true;
+        }
+
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid Authorization header");
@@ -38,5 +44,33 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    }
+
+    private boolean isAllow(HttpServletRequest request) {
+        String requestUri = ServletUriComponentsBuilder.fromRequestUri(request).build().getPath();
+        String method = request.getMethod();
+        if (requestUri.startsWith("/member/")) {
+            return true;
+        }
+        if (requestUri.startsWith("/auth/")) {
+            return true;
+        }
+        if (requestUri.startsWith("/university/")) {
+            return true;
+        }
+
+        if (requestUri.startsWith("/v2/api-docs")) {
+            return true;
+        }
+        if (requestUri.startsWith("/swagger-resources")) {
+            return true;
+        }
+        if (requestUri.startsWith("/swagger-ui")) {
+            return true;
+        }
+        if (method.equals("GET") && requestUri.startsWith("/question")) {
+            return true;
+        }
+        return false;
     }
 }
