@@ -2,8 +2,15 @@ package com.owls.owlworld.question;
 
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
+import com.owls.owlworld.post.GetAllPostResponse;
+import com.owls.owlworld.post.PostEntity;
 import com.owls.owlworld.university.UniversityDto;
 import com.owls.owlworld.university.UniversityService;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +24,22 @@ public class QuestionService {
         this.questionRepository = questionRepository;
         this.memberService = memberService;
         this.universityService = universityService;
+    }
+
+    public GetAllQuestionResponse getQuestions(Integer page, Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<QuestionEntity> result = questionRepository.findAll(pageRequest);
+
+        List<QuestionEntity> content = result.getContent();
+
+        return new GetAllQuestionResponse(
+            result.getTotalPages(),
+            result.getTotalElements(),
+            content.stream()
+                .map(questionEntity -> {
+                    MemberDto memberDto = new MemberDto(questionEntity.getMemberId());
+                    return questionEntity.toDto(memberDto, null);
+                }).collect(Collectors.toList()));
     }
 
     public QuestionDto createQuestion(AddQuestionRequest addQuestionRequest, Long memberId) {

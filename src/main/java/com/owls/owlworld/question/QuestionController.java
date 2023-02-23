@@ -1,8 +1,10 @@
 package com.owls.owlworld.question;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -13,6 +15,11 @@ public class QuestionController {
 
     public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
+    }
+
+    @GetMapping("")
+    public GetAllQuestionResponse getQuestions(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer size) {
+        return questionService.getQuestions(page, size);
     }
 
     @PostMapping("")
