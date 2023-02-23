@@ -1,22 +1,25 @@
 package com.owls.owlworld.answer;
 
+import com.owls.owlworld.member.MemberDto;
+import com.owls.owlworld.question.QuestionDto;
+
 public class AnswerDto {
 
     private Long id;
 
     private String content;
 
-    private Long questionId;
+    private QuestionDto question;
 
-    private Long memberId;
+    private MemberDto member;
 
     private boolean isAccepted;
 
-    public AnswerDto(Long id, String content, Long questionId, Long memberId, boolean isAccepted) {
+    public AnswerDto(Long id, String content, QuestionDto question, MemberDto member, boolean isAccepted) {
         this.id = id;
         this.content = content;
-        this.questionId = questionId;
-        this.memberId = memberId;
+        this.question = question;
+        this.member = member;
         this.isAccepted = isAccepted;
     }
 
@@ -36,20 +39,20 @@ public class AnswerDto {
         this.content = content;
     }
 
-    public Long getQuestionId() {
-        return questionId;
+    public QuestionDto getQuestion() {
+        return question;
     }
 
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
+    public void setQuestion(QuestionDto question) {
+        this.question = question;
     }
 
-    public Long getMemberId() {
-        return memberId;
+    public MemberDto getMember() {
+        return member;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
+    public void setMember(MemberDto member) {
+        this.member = member;
     }
 
     public boolean isAccepted() {

@@ -1,5 +1,7 @@
 package com.owls.owlworld.answer;
 
+import com.owls.owlworld.member.MemberDto;
+import com.owls.owlworld.question.QuestionDto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ public class AnswerEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -30,7 +32,7 @@ public class AnswerEntity {
     public AnswerEntity() {
     }
 
-    public AnswerEntity(Integer id, String content, Long questionId, Long memberId, boolean isAccepted) {
+    public AnswerEntity(Long id, String content, Long questionId, Long memberId, boolean isAccepted) {
         this.id = id;
         this.content = content;
         this.questionId = questionId;
@@ -38,11 +40,11 @@ public class AnswerEntity {
         this.isAccepted = isAccepted;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -76,5 +78,9 @@ public class AnswerEntity {
 
     public void setAccepted(boolean accepted) {
         isAccepted = accepted;
+    }
+
+    public AnswerDto toDto(QuestionDto questionDto, MemberDto memberDto) {
+        return new AnswerDto(id, content, questionDto, memberDto, isAccepted);
     }
 }

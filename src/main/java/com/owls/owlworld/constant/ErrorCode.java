@@ -11,7 +11,9 @@ public enum ErrorCode {
     ERROR_0007("ERROR_0007", "찾을 수 없음", "댓글을 찾을 수 없습니다."),
     ERROR_0008("ERROR_0008", "찾을 수 없음", "타입을 찾을 수 없습니다."),
     ERROR_0009("ERROR_0009", "실패", "이미 좋아요를 누른 글입니다."),
-    ERROR_0010("ERROR_0010", "실패", "좋아요를 찾을 수 없습니다.");
+    ERROR_0010("ERROR_0010", "실패", "좋아요를 찾을 수 없습니다."),
+    ERROR_0011("ERROR_0011", "찾을 수 없음", "질문을 찾을 수 없습니다.");
+
 
     private final String code;
     private final String message;
