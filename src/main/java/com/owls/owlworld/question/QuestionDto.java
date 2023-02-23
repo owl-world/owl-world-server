@@ -9,15 +9,17 @@ public class QuestionDto {
     private Long id;
     private String title;
     private String content;
+    private int answerCount;
     private MemberDto member;
 
     private UniversityDto universityDto;
     private LocalDateTime createdAt;
 
-    public QuestionDto(Long id, String title, String content, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {
+    public QuestionDto(Long id, String title, String content, int answerCount, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.answerCount = answerCount;
         this.member = member;
         this.universityDto = universityDto;
         this.createdAt = createdAt;
@@ -56,6 +58,14 @@ public class QuestionDto {
 
     public void setMember(MemberDto member) {
         this.member = member;
+    }
+
+    public int getAnswerCount() {
+        return answerCount;
+    }
+
+    public void setAnswerCount(int answerCount) {
+        this.answerCount = answerCount;
     }
 
     public UniversityDto getUniversityDto() {

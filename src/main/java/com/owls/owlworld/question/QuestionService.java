@@ -1,9 +1,8 @@
 package com.owls.owlworld.question;
 
+import com.owls.owlworld.answer.AnswerService;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
-import com.owls.owlworld.post.GetAllPostResponse;
-import com.owls.owlworld.post.PostEntity;
 import com.owls.owlworld.university.UniversityDto;
 import com.owls.owlworld.university.UniversityService;
 import java.util.List;
@@ -19,11 +18,13 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final MemberService memberService;
     private final UniversityService universityService;
+    private final AnswerService answerService;
 
-    public QuestionService(QuestionRepository questionRepository, MemberService memberService, UniversityService universityService) {
+    public QuestionService(QuestionRepository questionRepository, MemberService memberService, UniversityService universityService, AnswerService answerService) {
         this.questionRepository = questionRepository;
         this.memberService = memberService;
         this.universityService = universityService;
+        this.answerService = answerService;
     }
 
     public GetAllQuestionResponse getQuestions(Integer page, Integer size) {
@@ -38,7 +39,8 @@ public class QuestionService {
             content.stream()
                 .map(questionEntity -> {
                     MemberDto memberDto = new MemberDto(questionEntity.getMemberId());
-                    return questionEntity.toDto(memberDto, null);
+                    int answerCount = answerService.getAnswerCount(questionEntity.getId());
+                    return questionEntity.toDto(memberDto, null, answerCount);
                 }).collect(Collectors.toList()));
     }
 
@@ -54,6 +56,6 @@ public class QuestionService {
 
         QuestionEntity saved = questionRepository.save(questionEntity);
 
-        return saved.toDto(memberDto, universityDto);
+        return saved.toDto(memberDto, universityDto, 0);
     }
 }

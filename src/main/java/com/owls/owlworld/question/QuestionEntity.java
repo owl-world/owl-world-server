@@ -95,7 +95,7 @@ public class QuestionEntity {
         this.createdAt = createdAt;
     }
 
-    public QuestionDto toDto(MemberDto memberDto, UniversityDto universityDto) {
-        return new QuestionDto(id, title, content, memberDto, universityDto, createdAt);
+    public QuestionDto toDto(MemberDto memberDto, UniversityDto universityDto, int answerCount) {
+        return new QuestionDto(id, title, content, answerCount, memberDto, universityDto, createdAt);
     }
 }

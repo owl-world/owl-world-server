@@ -5,6 +5,7 @@ import com.owls.owlworld.exception.BusinessErrorException;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
 import com.owls.owlworld.question.QuestionDto;
+import com.owls.owlworld.question.QuestionEntity;
 import com.owls.owlworld.question.QuestionRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,12 @@ public class AnswerService {
 
         MemberDto memberDto = memberService.findById(memberId);
 
-        QuestionDto questionDto = questionRepository.findById(addAnswerRequest.getQuestionId())
-            .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011))
-            .toDto(memberDto, null);
+        QuestionEntity questionEntity = questionRepository.findById(addAnswerRequest.getQuestionId())
+            .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
+
+        int answerCount = this.getAnswerCount(questionEntity.getId());
+
+        QuestionDto questionDto = questionEntity.toDto(memberDto, null, answerCount);
 
         AnswerEntity answerEntity = new AnswerEntity();
         answerEntity.setContent(addAnswerRequest.getContent());
@@ -37,5 +41,10 @@ public class AnswerService {
 
         AnswerEntity saved = answerRepository.save(answerEntity);
         return saved.toDto(questionDto, memberDto);
+    }
+
+    // 답변개수
+    public int getAnswerCount(Long questionId) {
+        return answerRepository.countByQuestionId(questionId);
     }
 }
