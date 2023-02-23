@@ -25,6 +25,13 @@ public class UniversityService {
             .collect(Collectors.toList());
     }
 
+    public UniversityDto getUniversityById(Long universityId) {
+        UniversityEntity universityEntity = universityRepository.findById(universityId)
+            .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0003));
+
+        return universityEntity.toDto();
+    }
+
     public UniversityMajorDto getMajorById(Long majorId) {
         UniversityMajorEntity universityMajorEntity = universityMajorRepository.findById(majorId)
             .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0003));

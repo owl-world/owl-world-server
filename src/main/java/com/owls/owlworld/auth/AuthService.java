@@ -40,7 +40,7 @@ public class AuthService {
 
     private String createToken(MemberDto memberDto) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + 3600000); // 토큰 만료 시간: 24시간
+        Date expiration = new Date(now.getTime() + 3600000 * 7); // 토큰 만료 시간: 24시간
         Claims claims = Jwts.claims();
         claims.put("memberId", memberDto.getId());
         return Jwts.builder()
