@@ -43,6 +43,13 @@ public class AuthService {
         Date expiration = new Date(now.getTime() + 3600000 * 7); // 토큰 만료 시간: 24시간
         Claims claims = Jwts.claims();
         claims.put("memberId", memberDto.getId());
+        claims.put("nickname", memberDto.getNickname());
+        claims.put("email", memberDto.getEmail());
+        claims.put("majorId", memberDto.getUniversityMajorDto().getId());
+        claims.put("majorName", memberDto.getUniversityMajorDto().getName());
+        claims.put("universityId", memberDto.getUniversityMajorDto().getUniversity().getId());
+        claims.put("universityName", memberDto.getUniversityMajorDto().getUniversity().getName());
+        claims.put("universityLogo", memberDto.getUniversityMajorDto().getUniversity().getLogo());
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(now)
