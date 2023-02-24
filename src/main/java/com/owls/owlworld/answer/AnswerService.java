@@ -75,7 +75,7 @@ public class AnswerService {
                     .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
                 return answerEntity.toDto(questionDto, memberDto, likeCount, isLiked);
-            }).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
+            }).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0012));
     }
 
     public int getAnswerCount(Long questionId) {
@@ -93,7 +93,7 @@ public class AnswerService {
         }
 
         // 질문의 답변들 중에서 채택 된 답변이 있으면 에러
-        if (answerRepository.existsByQuestionIdAndAcceptedTrue(answerDto.getQuestion().getId())) {
+        if (answerRepository.existsByQuestionIdAndIsAcceptedTrue(answerDto.getQuestion().getId())) {
             throw new BusinessErrorException(ErrorCode.ERROR_0014);
         }
 
@@ -103,7 +103,10 @@ public class AnswerService {
         }
 
         // 답변 채택하기
-        answerRepository.acceptAnswer(answerId);
+        AnswerEntity answerEntity = answerRepository.findById(answerId)
+            .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0012));
+        answerEntity.setAccepted(true);
+        answerRepository.save(answerEntity);
 
         // 답변 채택 후 답변 조회
         return this.findById(answerId, memberId);

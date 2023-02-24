@@ -12,10 +12,5 @@ public interface AnswerRepository extends JpaRepository<AnswerEntity, Long> {
 
     List<AnswerEntity> findAllByQuestionId(Long questionId);
 
-    boolean existsByQuestionIdAndAcceptedTrue(Long questionId);
-
-    @Transactional
-    @Modifying
-    @Query("UPDATE answer SET is_accepted = true WHERE answer.id = :id")
-    void acceptAnswer(Long id);
+    boolean existsByQuestionIdAndIsAcceptedTrue(Long questionId);
 }
