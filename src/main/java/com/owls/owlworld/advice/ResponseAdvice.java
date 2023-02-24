@@ -3,6 +3,7 @@ package com.owls.owlworld.advice;
 import com.owls.owlworld.common.BaseResponseBody;
 import com.owls.owlworld.common.ErrorResponse;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -27,6 +28,8 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
             BaseResponseBody<ErrorResponse> baseResponseBody = new BaseResponseBody<>();
             baseResponseBody.setResult(false);
             baseResponseBody.setErrorResponse(errorResponse);
+
+            response.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
             return baseResponseBody;
         }
 
