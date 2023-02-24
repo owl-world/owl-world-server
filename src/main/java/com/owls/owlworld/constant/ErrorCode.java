@@ -16,7 +16,10 @@ public enum ErrorCode {
     ERROR_0012("ERROR_0012", "찾을 수 없음", "답변을 찾을 수 없습니다."),
     ERROR_0013("ERROR_0013", "실패", "본인 글의 답변에만 채택을 할 수 있습니다."),
     ERROR_0014("ERROR_0014", "실패", "이미 채택 된 질문입니다."),
-    ERROR_0015("ERROR_0015", "실패", "이미 채택 된 답변입니다.");
+    ERROR_0015("ERROR_0015", "실패", "이미 채택 된 답변입니다."),
+    ERROR_0016("ERROR_0016", "실패", "서버에 등록된 질문 개수만큼 점수를 요청해야합니다."),
+    ERROR_0017("ERROR_0017", "실패", "리뷰는 최대 5점까지 남길 수 있습니다.");
+
 
     private final String code;
     private final String message;
