@@ -1,5 +1,6 @@
 package com.owls.owlworld.member;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owls.owlworld.university.UniversityMajorDto;
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public class MemberDto {
     private String password;
     private UniversityMajorDto universityMajorDto;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public MemberDto(Long id) {

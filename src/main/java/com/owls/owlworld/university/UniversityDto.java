@@ -1,12 +1,16 @@
 package com.owls.owlworld.university;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class UniversityDto {
+
     private Long id;
     private String name;
     private String code;
     private String logo;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public UniversityDto(Long id, String name, String code, String logo, LocalDateTime createdAt) {

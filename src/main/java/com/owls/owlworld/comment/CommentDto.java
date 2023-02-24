@@ -1,5 +1,6 @@
 package com.owls.owlworld.comment;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owls.owlworld.like.Likeable;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.post.PostDto;
@@ -15,6 +16,7 @@ public class CommentDto implements Likeable {
 
     private PostDto postDto;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public CommentDto(Long id, String content, MemberDto memberDto, PostDto postDto, LocalDateTime createdAt) {

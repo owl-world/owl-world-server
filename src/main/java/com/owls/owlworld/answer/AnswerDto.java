@@ -1,5 +1,6 @@
 package com.owls.owlworld.answer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.question.QuestionDto;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class AnswerDto {
 
     private boolean isAccepted;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public AnswerDto(Long id, String content, int likeCount, boolean isLiked, QuestionDto question, MemberDto member, boolean isAccepted, LocalDateTime createdAt) {

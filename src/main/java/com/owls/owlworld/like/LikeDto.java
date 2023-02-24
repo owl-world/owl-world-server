@@ -1,5 +1,6 @@
 package com.owls.owlworld.like;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owls.owlworld.member.MemberDto;
 import java.time.LocalDateTime;
 
@@ -13,6 +14,7 @@ public class LikeDto {
 
     private MemberDto memberDto;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public LikeDto(Long id, Likeable target, String targetType, MemberDto memberDto, LocalDateTime createdAt) {

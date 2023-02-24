@@ -1,11 +1,14 @@
 package com.owls.owlworld.review;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class ReviewQuestionDto {
 
     Long id;
     String question;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     LocalDateTime createdAt;
 
     public ReviewQuestionDto(Long id, String question, LocalDateTime createdAt) {

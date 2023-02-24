@@ -1,5 +1,6 @@
 package com.owls.owlworld.question;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owls.owlworld.answer.AnswerDto;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.university.UniversityDto;
@@ -16,6 +17,8 @@ public class QuestionDto {
     private MemberDto member;
 
     private UniversityDto universityDto;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public QuestionDto(Long id, String title, String content, int answerCount, List<AnswerDto> answers, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {

@@ -1,5 +1,6 @@
 package com.owls.owlworld.university;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 
 public class UniversityMajorDto {
@@ -11,6 +12,8 @@ public class UniversityMajorDto {
     private String type;
     private int total;
     private float competitive;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDate createdAt;
 
     public UniversityMajorDto(Long id, UniversityDto university, String period, String name, String type, int total, float competitive, LocalDate createdAt) {
