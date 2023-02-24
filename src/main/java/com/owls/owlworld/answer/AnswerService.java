@@ -10,6 +10,7 @@ import com.owls.owlworld.question.QuestionEntity;
 import com.owls.owlworld.question.QuestionRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +28,7 @@ public class AnswerService {
         this.likeService = likeService;
     }
 
+    @Transactional
     public AnswerDto addAnswer(AddAnswerRequest addAnswerRequest, Long memberId) {
 
         MemberDto memberDto = memberService.findById(memberId);
@@ -58,8 +60,52 @@ public class AnswerService {
             }).collect(Collectors.toList());
     }
 
-    // 답변개수
+    public AnswerDto findById(Long id, Long memberId) {
+        return answerRepository.findById(id)
+            .map(answerEntity -> {
+
+                MemberDto memberDto = new MemberDto(answerEntity.getMemberId());
+
+                int likeCount = likeService.getLikeCount("answer", answerEntity.getId());
+
+                boolean isLiked = memberId != null && likeService.isLiked("answer", answerEntity.getId(), memberId);
+
+                QuestionDto questionDto = questionRepository.findById(answerEntity.getQuestionId())
+                    .map(questionEntity -> questionEntity.toDto(memberDto, null, null, 0))
+                    .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
+
+                return answerEntity.toDto(questionDto, memberDto, likeCount, isLiked);
+            }).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
+    }
+
     public int getAnswerCount(Long questionId) {
         return answerRepository.countByQuestionId(questionId);
+    }
+
+    @Transactional
+    public AnswerDto acceptAnswer(Long answerId, Long memberId) {
+        MemberDto memberDto = memberService.findById(memberId);
+        AnswerDto answerDto = this.findById(answerId, memberId);
+
+        // 접속한 사용자가 질문자가 아니면 에러
+        if (!answerDto.getQuestion().getMember().getId().equals(memberId)) {
+            throw new BusinessErrorException(ErrorCode.ERROR_0013);
+        }
+
+        // 질문의 답변들 중에서 채택 된 답변이 있으면 에러
+        if (answerRepository.existsByQuestionIdAndAcceptedTrue(answerDto.getQuestion().getId())) {
+            throw new BusinessErrorException(ErrorCode.ERROR_0014);
+        }
+
+        // 채택하려는 답변이 이미 채택이되어있으면 에러
+        if (answerDto.isAccepted()) {
+            throw new BusinessErrorException(ErrorCode.ERROR_0015);
+        }
+
+        // 답변 채택하기
+        answerRepository.acceptAnswer(answerId);
+
+        // 답변 채택 후 답변 조회
+        return this.findById(answerId, memberId);
     }
 }

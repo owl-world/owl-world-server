@@ -13,8 +13,10 @@ public enum ErrorCode {
     ERROR_0009("ERROR_0009", "실패", "이미 좋아요를 누른 글입니다."),
     ERROR_0010("ERROR_0010", "실패", "좋아요를 찾을 수 없습니다."),
     ERROR_0011("ERROR_0011", "찾을 수 없음", "질문을 찾을 수 없습니다."),
-    ERROR_0012("ERROR_0011", "찾을 수 없음", "답변을 찾을 수 없습니다.");
-
+    ERROR_0012("ERROR_0012", "찾을 수 없음", "답변을 찾을 수 없습니다."),
+    ERROR_0013("ERROR_0013", "실패", "본인 글의 답변에만 채택을 할 수 있습니다."),
+    ERROR_0014("ERROR_0014", "실패", "이미 채택 된 질문입니다."),
+    ERROR_0015("ERROR_0015", "실패", "이미 채택 된 답변입니다.");
 
     private final String code;
     private final String message;

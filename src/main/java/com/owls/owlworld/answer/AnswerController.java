@@ -1,6 +1,7 @@
 package com.owls.owlworld.answer;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,4 +24,10 @@ public class AnswerController {
         return answerService.addAnswer(addAnswerRequest, memberId);
     }
 
+    @PostMapping("/accept/{answerId}")
+    public AnswerDto acceptAnswer(@PathVariable String answerId, HttpServletRequest request) {
+        Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
+
+        return answerService.acceptAnswer(Long.valueOf(answerId), memberId);
+    }
 }
