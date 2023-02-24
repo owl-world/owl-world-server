@@ -4,6 +4,10 @@ import com.owls.owlworld.constant.ErrorCode;
 import com.owls.owlworld.exception.BusinessErrorException;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
+import com.owls.owlworld.university.UniversityDto;
+import com.owls.owlworld.university.UniversityService;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
@@ -15,11 +19,13 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReviewQuestionRepository reviewQuestionRepository;
     private final MemberService memberService;
+    private final UniversityService universityService;
 
-    public ReviewService(ReviewRepository reviewRepository, ReviewQuestionRepository reviewQuestionRepository, MemberService memberService) {
+    public ReviewService(ReviewRepository reviewRepository, ReviewQuestionRepository reviewQuestionRepository, MemberService memberService, UniversityService universityService) {
         this.reviewRepository = reviewRepository;
         this.reviewQuestionRepository = reviewQuestionRepository;
         this.memberService = memberService;
+        this.universityService = universityService;
     }
 
     public List<ReviewQuestionDto> getAllReviewQuestions() {
@@ -27,6 +33,28 @@ public class ReviewService {
             .stream()
             .map(ReviewQuestionEntity::toDto)
             .collect(Collectors.toList());
+    }
+
+    public List<Integer> getTotalScoreByUniversityId(Long universityId) {
+        UniversityDto universityDto = universityService.getUniversityById(universityId);
+        if (universityDto == null) {
+            throw new BusinessErrorException(ErrorCode.ERROR_0003);
+        }
+
+        List<GetTotalScoreProjection> totalScoreProjections = reviewRepository.getTotalScoreByUniversityId(universityId);
+
+        // 초기에 0으로 전부 세팅
+        List<Integer> scores = new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0));
+
+        for (int i = 0; i < totalScoreProjections.size(); i++) {
+            GetTotalScoreProjection totalScoreProjection = totalScoreProjections.get(i);
+
+            Integer integerAvg = (int) Math.round(totalScoreProjection.getAvgScore());
+            int index = (int) (totalScoreProjection.getReviewQuestionId() - 1);
+            scores.set(index, integerAvg);
+        }
+
+        return scores;
     }
 
     @Transactional

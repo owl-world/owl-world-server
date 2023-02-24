@@ -3,6 +3,7 @@ package com.owls.owlworld.review;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +18,14 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-
     @GetMapping("/question")
     public List<ReviewQuestionDto> getAllReviewQuestions() {
         return reviewService.getAllReviewQuestions();
+    }
+
+    @GetMapping("/score/{universityId}")
+    public List<Integer> getTotalScoreByUniversityId(@PathVariable String universityId) {
+        return reviewService.getTotalScoreByUniversityId(Long.valueOf(universityId));
     }
 
     @PostMapping("")
