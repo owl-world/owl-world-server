@@ -13,7 +13,7 @@ public class UniversityMajorDto {
     private int total;
     private float competitive;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
 
     public UniversityMajorDto(Long id, UniversityDto university, String period, String name, String type, int total, float competitive, LocalDate createdAt) {
