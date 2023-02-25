@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UniversityMajorRepository extends JpaRepository<UniversityMajorEntity, Long> {
 
-    List<UniversityMajorEntity> findByUniversityId(Long universityId);
+    List<UniversityMajorEntity> findByUniversityIdAndPeriod(Long universityId, String period);
 
 }

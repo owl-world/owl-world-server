@@ -52,7 +52,7 @@ public class UniversityService {
         UniversityDto universityDto = new UniversityDto(universityEntity.getId(), universityEntity.getName(),
             universityEntity.getCode(), universityEntity.getLogo(), universityEntity.getCreatedAt());
 
-        return universityMajorRepository.findByUniversityId(universityEntity.getId())
+        return universityMajorRepository.findByUniversityIdAndPeriod(universityEntity.getId(), "수시")
             .stream()
             .map(universityMajorEntity -> new UniversityMajorDto(
                 universityMajorEntity.getId(),
