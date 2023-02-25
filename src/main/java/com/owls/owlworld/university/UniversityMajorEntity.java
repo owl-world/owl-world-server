@@ -17,7 +17,7 @@ public class UniversityMajorEntity {
     private Long id;
 
     @Column(name = "university_id", nullable = false)
-    private int universityId;
+    private Long universityId;
 
     @Column(name = "period", length = 10, nullable = false)
     private String period;
@@ -37,7 +37,7 @@ public class UniversityMajorEntity {
     @Column(name = "created_at", nullable = false, columnDefinition = "date default current_timestamp()")
     private LocalDate createdAt;
 
-    public UniversityMajorEntity(Long id, int universityId, String period, String name, String type, int total, float competitive, LocalDate createdAt) {
+    public UniversityMajorEntity(Long id, Long universityId, String period, String name, String type, int total, float competitive, LocalDate createdAt) {
         this.id = id;
         this.universityId = universityId;
         this.period = period;
@@ -60,11 +60,11 @@ public class UniversityMajorEntity {
         this.id = id;
     }
 
-    public int getUniversityId() {
+    public Long getUniversityId() {
         return universityId;
     }
 
-    public void setUniversityId(int universityId) {
+    public void setUniversityId(Long universityId) {
         this.universityId = universityId;
     }
 
