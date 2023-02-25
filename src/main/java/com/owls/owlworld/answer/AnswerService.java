@@ -53,7 +53,7 @@ public class AnswerService {
         List<AnswerEntity> answerEntities = answerRepository.findAllByQuestionId(questionId);
         return answerEntities.stream()
             .map(answerEntity -> {
-                MemberDto memberDto = new MemberDto(answerEntity.getMemberId());
+                MemberDto memberDto = memberService.findById(answerEntity.getMemberId());
                 int likeCount = likeService.getLikeCount("answer", answerEntity.getId());
                 boolean isLiked = memberId != null && likeService.isLiked("answer", answerEntity.getId(), memberId);
                 return answerEntity.toDto(null, memberDto, likeCount, isLiked);
