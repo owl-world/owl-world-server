@@ -61,9 +61,9 @@ public class PostService {
     }
 
     public List<PostDto> getTop3PostsInLast12Hours(Long memberId) {
-        List<Long> postIds = postRepository.findTop3PostIdsInLast12Hours();
+        List<Long> postIds = postRepository.findTop3PostIdsInLast100Hours();
         return postIds.stream()
-            .map(postId -> this.getPost(postId,memberId)).collect(Collectors.toList());
+            .map(postId -> this.getPost(postId, memberId)).collect(Collectors.toList());
     }
 
     public PostDto createPost(AddPostRequest addPostRequest, Long memberId) {
