@@ -79,6 +79,10 @@ public class JwtInterceptor implements HandlerInterceptor {
             isAllow = true;
         }
 
+        if (method.equals("GET") && requestUri.startsWith("/review/question")) {
+            isAllow = true;
+        }
+
         if (isAllow) {
             String authorizationHeader = request.getHeader("Authorization");
             if (authorizationHeader != null) {
