@@ -37,7 +37,8 @@ public class QuestionController {
 
     @PostMapping("")
     public QuestionDto createQuestion(@RequestBody AddQuestionRequest addQuestionRequest, HttpServletRequest request) {
-        Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
+        boolean isMember = request.getAttribute("memberId") != null;
+        Long memberId = isMember ? Long.valueOf(String.valueOf(request.getAttribute("memberId"))) : null;
 
         return questionService.createQuestion(addQuestionRequest, memberId);
     }

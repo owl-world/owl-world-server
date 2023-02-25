@@ -75,6 +75,10 @@ public class JwtInterceptor implements HandlerInterceptor {
             isAllow = true;
         }
 
+        if (method.equals("POST") && requestUri.startsWith("/question")) {
+            isAllow = true;
+        }
+
         if (method.equals("GET") && requestUri.startsWith("/review/score")) {
             isAllow = true;
         }

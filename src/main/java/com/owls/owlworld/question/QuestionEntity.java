@@ -24,7 +24,7 @@ public class QuestionEntity {
     @Column(name = "content", nullable = false, length = 1000)
     private String content;
 
-    @Column(name = "member_id", nullable = false)
+    @Column(name = "member_id")
     private Long memberId;
 
     @Column(name = "university_id", nullable = false)

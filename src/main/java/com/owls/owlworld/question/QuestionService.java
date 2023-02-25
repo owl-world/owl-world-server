@@ -44,19 +44,19 @@ public class QuestionService {
             result.getTotalElements(),
             content.stream()
                 .map(questionEntity -> {
-                    MemberDto memberDto = new MemberDto(questionEntity.getMemberId());
+                    MemberDto memberDto = questionEntity.getMemberId() == null ? null : memberService.findById(questionEntity.getMemberId());
                     int answerCount = answerService.getAnswerCount(questionEntity.getId());
                     return questionEntity.toDto(memberDto, null, null, answerCount);
                 }).collect(Collectors.toList()));
     }
 
     public QuestionDto createQuestion(AddQuestionRequest addQuestionRequest, Long memberId) {
-        MemberDto memberDto = memberService.findById(memberId);
+        MemberDto memberDto = memberId == null ? null : memberService.findById(memberId);
         UniversityDto universityDto = universityService.getUniversityById(addQuestionRequest.getUniversityId());
 
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setContent(addQuestionRequest.getContent());
-        questionEntity.setMemberId(memberDto.getId());
+        questionEntity.setMemberId(null);
         questionEntity.setUniversityId(universityDto.getId());
 
         QuestionEntity saved = questionRepository.save(questionEntity);
@@ -68,7 +68,7 @@ public class QuestionService {
 
         QuestionEntity questionEntity = questionRepository.findById(questionId).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
-        MemberDto memberDto = memberService.findById(questionEntity.getMemberId());
+        MemberDto memberDto = memberId == null ? null : memberService.findById(questionEntity.getMemberId());
         List<AnswerDto> answers = answerService.getAnswers(questionEntity.getId(), memberId);
 
         return questionEntity.toDto(memberDto, null, answers, answers.size());
@@ -85,7 +85,7 @@ public class QuestionService {
             result.getTotalElements(),
             content.stream()
                 .map(questionEntity -> {
-                    MemberDto memberDto = memberService.findById(questionEntity.getMemberId());
+                    MemberDto memberDto = questionEntity.getMemberId() == null ? null : memberService.findById(questionEntity.getMemberId());
                     int answerCount = answerService.getAnswerCount(questionEntity.getId());
                     UniversityDto universityDto = universityService.getUniversityById(questionEntity.getUniversityId());
                     return questionEntity.toDto(memberDto, universityDto, null, answerCount);

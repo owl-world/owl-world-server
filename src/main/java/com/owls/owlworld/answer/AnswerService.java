@@ -88,7 +88,9 @@ public class AnswerService {
         AnswerDto answerDto = this.findById(answerId, memberId);
 
         // 접속한 사용자가 질문자가 아니면 에러
-        if (!answerDto.getQuestion().getMember().getId().equals(memberId)) {
+
+        MemberDto writer = answerDto.getQuestion().getMember();
+        if (writer != null && !writer.getId().equals(memberId)) {
             throw new BusinessErrorException(ErrorCode.ERROR_0013);
         }
 
