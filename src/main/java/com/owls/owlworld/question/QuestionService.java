@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,10 @@ public class QuestionService {
         this.answerService = answerService;
     }
 
-    public GetAllQuestionResponse getQuestions(Integer page, Integer size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<QuestionEntity> result = questionRepository.findAll(pageRequest);
+    public GetAllQuestionResponse getQuestions(Integer page, Integer size, Long universityId) {
+
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<QuestionEntity> result = questionRepository.findAllByUniversityId(universityId, pageRequest);
 
         List<QuestionEntity> content = result.getContent();
 

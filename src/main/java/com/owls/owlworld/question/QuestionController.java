@@ -20,8 +20,11 @@ public class QuestionController {
     }
 
     @GetMapping("")
-    public GetAllQuestionResponse getQuestions(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer size) {
-        return questionService.getQuestions(page, size);
+    public GetAllQuestionResponse getQuestions(
+        @RequestParam(defaultValue = "0") Integer page,
+        @RequestParam(defaultValue = "30") Integer size,
+        @RequestParam String universityId) {
+        return questionService.getQuestions(page, size, Long.valueOf(universityId));
     }
 
     @GetMapping("/{questionId}")
