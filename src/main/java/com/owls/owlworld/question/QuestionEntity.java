@@ -21,9 +21,6 @@ public class QuestionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title", nullable = false, length = 50)
-    private String title;
-
     @Column(name = "content", nullable = false, length = 1000)
     private String content;
 
@@ -37,9 +34,8 @@ public class QuestionEntity {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    public QuestionEntity(Long id, String title, String content, Long memberId, Long universityId, LocalDateTime createdAt) {
+    public QuestionEntity(Long id, String content, Long memberId, Long universityId, LocalDateTime createdAt) {
         this.id = id;
-        this.title = title;
         this.content = content;
         this.memberId = memberId;
         this.universityId = universityId;
@@ -55,14 +51,6 @@ public class QuestionEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
@@ -98,6 +86,6 @@ public class QuestionEntity {
     }
 
     public QuestionDto toDto(MemberDto memberDto, UniversityDto universityDto, List<AnswerDto> answers, int answerCount) {
-        return new QuestionDto(id, title, content, answerCount, answers, memberDto, universityDto, createdAt);
+        return new QuestionDto(id, content, answerCount, answers, memberDto, universityDto, createdAt);
     }
 }

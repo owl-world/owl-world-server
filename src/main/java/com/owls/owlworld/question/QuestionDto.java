@@ -10,7 +10,6 @@ import java.util.List;
 public class QuestionDto {
 
     private Long id;
-    private String title;
     private String content;
     private int answerCount;
     private List<AnswerDto> answers;
@@ -21,9 +20,8 @@ public class QuestionDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
-    public QuestionDto(Long id, String title, String content, int answerCount, List<AnswerDto> answers, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {
+    public QuestionDto(Long id, String content, int answerCount, List<AnswerDto> answers, MemberDto member, UniversityDto universityDto, LocalDateTime createdAt) {
         this.id = id;
-        this.title = title;
         this.content = content;
         this.answerCount = answerCount;
         this.answers = answers;
@@ -41,14 +39,6 @@ public class QuestionDto {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {

@@ -55,7 +55,6 @@ public class QuestionService {
         UniversityDto universityDto = universityService.getUniversityById(addQuestionRequest.getUniversityId());
 
         QuestionEntity questionEntity = new QuestionEntity();
-        questionEntity.setTitle(addQuestionRequest.getTitle());
         questionEntity.setContent(addQuestionRequest.getContent());
         questionEntity.setMemberId(memberDto.getId());
         questionEntity.setUniversityId(universityDto.getId());

@@ -2,7 +2,6 @@ package com.owls.owlworld.question;
 
 public class AddQuestionRequest {
 
-    String title;
     String content;
 
     Long universityId;
@@ -10,18 +9,9 @@ public class AddQuestionRequest {
     public AddQuestionRequest() {
     }
 
-    public AddQuestionRequest(String title, String content, Long universityId) {
-        this.title = title;
+    public AddQuestionRequest(String content, Long universityId) {
         this.content = content;
         this.universityId = universityId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {
