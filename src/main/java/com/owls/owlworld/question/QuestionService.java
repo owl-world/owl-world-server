@@ -73,4 +73,22 @@ public class QuestionService {
 
         return questionEntity.toDto(memberDto, null, answers, answers.size());
     }
+
+    public GetAllQuestionResponse getQuestionsByKeyword(Integer page, Integer size, String keyword) {
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<QuestionEntity> result = questionRepository.findByContentContaining(keyword, pageRequest);
+
+        List<QuestionEntity> content = result.getContent();
+
+        return new GetAllQuestionResponse(
+            result.getTotalPages(),
+            result.getTotalElements(),
+            content.stream()
+                .map(questionEntity -> {
+                    MemberDto memberDto = memberService.findById(questionEntity.getMemberId());
+                    int answerCount = answerService.getAnswerCount(questionEntity.getId());
+                    UniversityDto universityDto = universityService.getUniversityById(questionEntity.getUniversityId());
+                    return questionEntity.toDto(memberDto, universityDto, null, answerCount);
+                }).collect(Collectors.toList()));
+    }
 }

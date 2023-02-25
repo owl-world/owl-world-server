@@ -21,8 +21,9 @@ public class PostController {
     }
 
     @GetMapping("")
-    public GetAllPostResponse getPosts(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer size) {
-        return postService.getPosts(page, size);
+    public GetAllPostResponse getPosts(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "30") Integer size, HttpServletRequest request) {
+        Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));
+        return postService.getPosts(page, size, memberId);
     }
 
     @GetMapping("/{postId}")

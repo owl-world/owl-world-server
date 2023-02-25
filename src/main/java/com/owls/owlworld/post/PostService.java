@@ -7,10 +7,12 @@ import com.owls.owlworld.exception.BusinessErrorException;
 import com.owls.owlworld.like.LikeService;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.member.MemberService;
+import com.owls.owlworld.question.QuestionEntity;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +31,7 @@ public class PostService {
         this.likeService = likeService;
     }
 
-    public GetAllPostResponse getPosts(Integer page, Integer size) {
+    public GetAllPostResponse getPosts(Integer page, Integer size, Long memberId) {
         PageRequest pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<PostEntity> result = postRepository.findAll(pageRequest);
 
@@ -43,7 +45,9 @@ public class PostService {
                     MemberDto memberDto = new MemberDto(postEntity.getMemberId());
                     int commentCount = commentService.getCommentCount(postEntity.getId());
                     int likeCount = likeService.getLikeCount("post", postEntity.getId());
-                    return postEntity.toDto(memberDto, null, commentCount, likeCount, false);
+                    // 좋아요를 눌렀는지
+                    boolean isLiked = likeService.isLiked("post", postEntity.getId(), memberId);
+                    return postEntity.toDto(memberDto, null, commentCount, likeCount, isLiked);
                 }).collect(Collectors.toList()));
     }
 
@@ -74,5 +78,25 @@ public class PostService {
 
         MemberDto memberDto = memberService.findById(memberId);
         return postRepository.save(postEntity).toDto(memberDto, null, 0, 0, false);
+    }
+
+    public GetAllPostResponse getPostsByKeyword(int page, int size, String keyword, Long memberId) {
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<PostEntity> result = postRepository.findByContentContainingOrTitleContaining(keyword, keyword, pageRequest);
+
+        List<PostEntity> content = result.getContent();
+
+        return new GetAllPostResponse(
+            result.getTotalPages(),
+            result.getTotalElements(),
+            content.stream()
+                .map(postEntity -> {
+                    MemberDto memberDto = memberService.findById(postEntity.getMemberId());
+                    int commentCount = commentService.getCommentCount(postEntity.getId());
+                    int likeCount = likeService.getLikeCount("post", postEntity.getId());
+                    // 좋아요를 눌렀는지
+                    boolean isLiked = likeService.isLiked("post", postEntity.getId(), memberId);
+                    return postEntity.toDto(memberDto, null, commentCount, likeCount, isLiked);
+                }).collect(Collectors.toList()));
     }
 }
