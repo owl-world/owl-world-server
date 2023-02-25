@@ -35,7 +35,7 @@ public class ReviewService {
             .collect(Collectors.toList());
     }
 
-    public List<Integer> getTotalScoreByUniversityId(Long universityId) {
+    public GetToalScoresResponse getTotalScoreByUniversityId(Long universityId) {
         UniversityDto universityDto = universityService.getUniversityById(universityId);
         if (universityDto == null) {
             throw new BusinessErrorException(ErrorCode.ERROR_0003);
@@ -54,7 +54,18 @@ public class ReviewService {
             scores.set(index, integerAvg);
         }
 
-        return scores;
+        GetToalScoresResponse getToalScoresResponse = new GetToalScoresResponse();
+        getToalScoresResponse.setTotalScores(scores);
+        getToalScoresResponse.setUniversityDto(universityDto);
+
+        return getToalScoresResponse;
+    }
+
+    public List<GetToalScoresResponse> getTotalScoresByUniversityIds(GetTotalScoresRequest getTotalScoresRequest) {
+        return getTotalScoresRequest.getUniversityIds()
+            .stream()
+            .map(this::getTotalScoreByUniversityId)
+            .collect(Collectors.toList());
     }
 
     @Transactional

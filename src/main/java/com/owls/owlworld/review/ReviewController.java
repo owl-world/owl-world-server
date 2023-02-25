@@ -26,7 +26,12 @@ public class ReviewController {
 
     @GetMapping("/score/{universityId}")
     public List<Integer> getTotalScoreByUniversityId(@PathVariable String universityId) {
-        return reviewService.getTotalScoreByUniversityId(Long.valueOf(universityId));
+        return reviewService.getTotalScoreByUniversityId(Long.valueOf(universityId)).getTotalScores();
+    }
+
+    @PostMapping("/score")
+    public List<GetToalScoresResponse> getTotalScoresByUniversityIds(@RequestBody GetTotalScoresRequest getTotalScoresRequest) {
+        return reviewService.getTotalScoresByUniversityIds(getTotalScoresRequest);
     }
 
     @PostMapping("")
