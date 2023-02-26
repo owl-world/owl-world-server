@@ -19,7 +19,7 @@ public class SearchController {
     @GetMapping("")
     public SearchResponse search(
         @RequestParam(defaultValue = "0") Integer page,
-        @RequestParam(defaultValue = "30") Integer size,
+        @RequestParam(defaultValue = "100") Integer size,
         @RequestParam String keyword, HttpServletRequest request) {
         boolean isMember = request.getAttribute("memberId") != null;
         Long memberId = isMember ? Long.valueOf(String.valueOf(request.getAttribute("memberId"))) : null;

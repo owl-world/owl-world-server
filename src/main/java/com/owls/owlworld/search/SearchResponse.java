@@ -2,6 +2,7 @@ package com.owls.owlworld.search;
 
 import com.owls.owlworld.post.GetAllPostResponse;
 import com.owls.owlworld.question.GetAllQuestionResponse;
+import java.util.List;
 
 public class SearchResponse {
 
@@ -9,13 +10,16 @@ public class SearchResponse {
     GetAllPostResponse posts;
     GetAllQuestionResponse questions;
 
+    List<ArticleDto> articles;
+
     public SearchResponse() {
     }
 
-    public SearchResponse(String keyword, GetAllPostResponse posts, GetAllQuestionResponse questions) {
+    public SearchResponse(String keyword, GetAllPostResponse posts, GetAllQuestionResponse questions, List<ArticleDto> articles) {
         this.keyword = keyword;
         this.posts = posts;
         this.questions = questions;
+        this.articles = articles;
     }
 
     public String getKeyword() {
@@ -40,5 +44,13 @@ public class SearchResponse {
 
     public void setQuestions(GetAllQuestionResponse questions) {
         this.questions = questions;
+    }
+
+    public List<ArticleDto> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<ArticleDto> articles) {
+        this.articles = articles;
     }
 }
