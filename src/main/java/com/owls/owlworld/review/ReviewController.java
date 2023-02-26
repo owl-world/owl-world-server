@@ -34,7 +34,7 @@ public class ReviewController {
         return reviewService.getTotalScoresByUniversityIds(getTotalScoresRequest);
     }
 
-    @PostMapping("/score/all")
+    @GetMapping("/score/all")
     public List<GetTotalScoresResponse> getTotalScoresByUniversityIds() {
         return reviewService.getTotalScoresAllUniversity();
     }
