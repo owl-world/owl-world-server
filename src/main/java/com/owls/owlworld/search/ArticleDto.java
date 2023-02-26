@@ -1,5 +1,6 @@
 package com.owls.owlworld.search;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.owls.owlworld.member.MemberDto;
 import com.owls.owlworld.university.UniversityDto;
 import java.time.LocalDateTime;
@@ -17,6 +18,8 @@ public class ArticleDto {
     private boolean liked;
 
     private String type;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime createdAt;
 
     public ArticleDto() {
