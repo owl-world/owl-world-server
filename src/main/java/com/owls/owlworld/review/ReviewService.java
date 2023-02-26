@@ -35,7 +35,7 @@ public class ReviewService {
             .collect(Collectors.toList());
     }
 
-    public GetToalScoresResponse getTotalScoreByUniversityId(Long universityId) {
+    public GetTotalScoresResponse getTotalScoreByUniversityId(Long universityId) {
         UniversityDto universityDto = universityService.getUniversityById(universityId);
         if (universityDto == null) {
             throw new BusinessErrorException(ErrorCode.ERROR_0003);
@@ -54,14 +54,14 @@ public class ReviewService {
             scores.set(index, integerAvg);
         }
 
-        GetToalScoresResponse getToalScoresResponse = new GetToalScoresResponse();
-        getToalScoresResponse.setTotalScores(scores);
-        getToalScoresResponse.setUniversityDto(universityDto);
-
-        return getToalScoresResponse;
+        GetTotalScoresResponse getTotalScoresResponse = new GetTotalScoresResponse();
+        getTotalScoresResponse.setTotalScores(scores);
+        getTotalScoresResponse.setUniversityDto(universityDto);
+        getTotalScoresResponse.setAvg((int) Math.round(scores.stream().mapToInt(Integer::intValue).average().orElse(0)));
+        return getTotalScoresResponse;
     }
 
-    public List<GetToalScoresResponse> getTotalScoresByUniversityIds(GetTotalScoresRequest getTotalScoresRequest) {
+    public List<GetTotalScoresResponse> getTotalScoresByUniversityIds(GetTotalScoresRequest getTotalScoresRequest) {
         return getTotalScoresRequest.getUniversityIds()
             .stream()
             .map(this::getTotalScoreByUniversityId)

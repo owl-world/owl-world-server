@@ -3,17 +3,19 @@ package com.owls.owlworld.review;
 import com.owls.owlworld.university.UniversityDto;
 import java.util.List;
 
-public class GetToalScoresResponse {
+public class GetTotalScoresResponse {
 
     private UniversityDto universityDto;
     private List<Integer> totalScores;
+    private Integer avg;
 
-    public GetToalScoresResponse() {
+    public GetTotalScoresResponse() {
     }
 
-    public GetToalScoresResponse(UniversityDto universityDto, List<Integer> totalScores) {
+    public GetTotalScoresResponse(UniversityDto universityDto, List<Integer> totalScores, Integer avg) {
         this.universityDto = universityDto;
         this.totalScores = totalScores;
+        this.avg = avg;
     }
 
     public UniversityDto getUniversityDto() {
@@ -30,5 +32,13 @@ public class GetToalScoresResponse {
 
     public void setTotalScores(List<Integer> totalScores) {
         this.totalScores = totalScores;
+    }
+
+    public Integer getAvg() {
+        return avg;
+    }
+
+    public void setAvg(Integer avg) {
+        this.avg = avg;
     }
 }
