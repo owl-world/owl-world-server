@@ -34,6 +34,11 @@ public class ReviewController {
         return reviewService.getTotalScoresByUniversityIds(getTotalScoresRequest);
     }
 
+    @PostMapping("/score/all")
+    public List<GetTotalScoresResponse> getTotalScoresByUniversityIds() {
+        return reviewService.getTotalScoresAllUniversity();
+    }
+
     @PostMapping("")
     public List<Integer> addReview(@RequestBody AddReviewRequest addReviewRequest, HttpServletRequest request) {
         Long memberId = Long.valueOf(String.valueOf(request.getAttribute("memberId")));

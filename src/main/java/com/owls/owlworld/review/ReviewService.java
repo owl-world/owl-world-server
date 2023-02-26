@@ -68,6 +68,14 @@ public class ReviewService {
             .collect(Collectors.toList());
     }
 
+    public List<GetTotalScoresResponse> getTotalScoresAllUniversity() {
+        List<UniversityDto> universityDtoList = universityService.getAllUniversities();
+
+        return universityDtoList.stream()
+            .map(universityDto -> this.getTotalScoreByUniversityId(universityDto.getId()))
+            .collect(Collectors.toList());
+    }
+
     @Transactional
     public List<Integer> addReview(AddReviewRequest addReviewRequest, Long memberId) {
         List<Integer> scores = addReviewRequest.getScores();
