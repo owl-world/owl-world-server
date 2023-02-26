@@ -10,7 +10,7 @@ public class ArticleDto {
     private Long id;
     private String title;
     private String content;
-    private MemberDto memberDto;
+    private MemberDto member;
     private UniversityDto universityDto;
 
     private int likeCount;
@@ -25,11 +25,11 @@ public class ArticleDto {
     public ArticleDto() {
     }
 
-    public ArticleDto(Long id, String title, String content, MemberDto memberDto, UniversityDto universityDto, int likeCount, int answerCount, boolean liked, String type, LocalDateTime createdAt) {
+    public ArticleDto(Long id, String title, String content, MemberDto member, UniversityDto universityDto, int likeCount, int answerCount, boolean liked, String type, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.memberDto = memberDto;
+        this.member = member;
         this.universityDto = universityDto;
         this.likeCount = likeCount;
         this.answerCount = answerCount;
@@ -62,12 +62,12 @@ public class ArticleDto {
         this.content = content;
     }
 
-    public MemberDto getMemberDto() {
-        return memberDto;
+    public MemberDto getMember() {
+        return member;
     }
 
-    public void setMemberDto(MemberDto memberDto) {
-        this.memberDto = memberDto;
+    public void setMember(MemberDto member) {
+        this.member = member;
     }
 
     public UniversityDto getUniversityDto() {

@@ -3,7 +3,6 @@ package com.owls.owlworld.search;
 import com.owls.owlworld.post.GetAllPostResponse;
 import com.owls.owlworld.post.PostService;
 import com.owls.owlworld.question.GetAllQuestionResponse;
-import com.owls.owlworld.question.QuestionDto;
 import com.owls.owlworld.question.QuestionService;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +32,7 @@ public class SearchService {
                 articleDto.setId(questionDto.getId());
                 articleDto.setContent(questionDto.getContent());
                 articleDto.setAnswerCount(questionDto.getAnswerCount());
-                articleDto.setMemberDto(questionDto.getMember());
+                articleDto.setMember(questionDto.getMember());
                 articleDto.setUniversityDto(questionDto.getUniversityDto());
                 articleDto.setCreatedAt(questionDto.getCreatedAt());
                 articleDto.setType("question");
@@ -55,7 +54,7 @@ public class SearchService {
                 articleDto.setLikeCount(postDto.getLikeCount());
                 articleDto.setAnswerCount(postDto.getCommentCount());
                 articleDto.setLiked(postDto.isLiked());
-                articleDto.setMemberDto(postDto.getMemberDto());
+                articleDto.setMember(postDto.getMemberDto());
                 articleDto.setCreatedAt(postDto.getCreatedAt());
                 articleDto.setType("post");
                 return articleDto;
