@@ -56,7 +56,7 @@ public class QuestionService {
 
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setContent(addQuestionRequest.getContent());
-        questionEntity.setMemberId(null);
+        questionEntity.setMemberId(memberId == null ? null : memberDto.getId()); // 회원으로 글 썼으면 글쓰기
         questionEntity.setUniversityId(universityDto.getId());
 
         QuestionEntity saved = questionRepository.save(questionEntity);
