@@ -68,10 +68,11 @@ public class QuestionService {
 
         QuestionEntity questionEntity = questionRepository.findById(questionId).orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
-        MemberDto memberDto = memberId == null ? null : memberService.findById(questionEntity.getMemberId());
+        MemberDto questionWriter = questionEntity.getMemberId() == null ? null : memberService.findById(questionEntity.getMemberId());
         List<AnswerDto> answers = answerService.getAnswers(questionEntity.getId(), memberId);
 
-        return questionEntity.toDto(memberDto, null, answers, answers.size());
+        UniversityDto universityDto = universityService.getUniversityById(questionEntity.getUniversityId());
+        return questionEntity.toDto(questionWriter, universityDto, answers, answers.size());
     }
 
     public GetAllQuestionResponse getQuestionsByKeyword(Integer page, Integer size, String keyword) {
