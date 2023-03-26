@@ -71,7 +71,10 @@ public class AnswerService {
                 boolean isLiked = memberId != null && likeService.isLiked("answer", answerEntity.getId(), memberId);
 
                 QuestionDto questionDto = questionRepository.findById(answerEntity.getQuestionId())
-                    .map(questionEntity -> questionEntity.toDto(memberDto, null, null, 0))
+                    .map(questionEntity -> {
+                        MemberDto questionMemberDto = new MemberDto(questionEntity.getMemberId());
+                        return questionEntity.toDto(questionMemberDto, null, null, 0);
+                    })
                     .orElseThrow(() -> new BusinessErrorException(ErrorCode.ERROR_0011));
 
                 return answerEntity.toDto(questionDto, memberDto, likeCount, isLiked);
